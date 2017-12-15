@@ -1,6 +1,4 @@
 import java.awt.*;
-import java.awt.GridLayout;
-import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -10,15 +8,13 @@ import java.sql.Connection;
 import java.sql.Statement;
 
 public class Display extends JFrame {
-    private Button query, modify, insert;
-    private JTextField name;
-    private JTextField phone;
-    private JTextArea textArea;
-    private Statement stmt;
-    private Connection conn;
-    private ResultSet resultSet;
+
+    //    private Statement stmt;
+//    private Connection conn;
+//    private ResultSet resultSet;
 
     private Display() {
+
         this.setFrame();
         this.setVisible(true);
     }
@@ -30,7 +26,7 @@ public class Display extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // set bounds
-        this.setBounds(100, 100, 500, 600);
+        this.setBounds(100, 100, 500, 400);
         this.setResizable(false);
 
         // set layout
@@ -49,17 +45,15 @@ public class Display extends JFrame {
         options.setLayout(new FlowLayout());
         this.add(options);
 
-        this.insert = new Button("新 增");
-        this.modify = new Button("修 改");
-        this.query = new Button("查 询");
+        Button insert = new Button("新 增");
+        Button modify = new Button("修 改");
+        Button query = new Button("查 询");
         options.add(insert);
         options.add(modify);
         options.add(query);
 
         // insert event listener
-        insert.addActionListener(e -> {
-            this.setInsertDataWindow();
-        });
+        insert.addActionListener(e -> this.setInsertDataWindow());
 
     }
 
@@ -69,7 +63,7 @@ public class Display extends JFrame {
         queryDisplay.setLayout(new FlowLayout());
         this.add(queryDisplay);
 
-        this.textArea = new JTextArea();
+        JTextArea textArea = new JTextArea();
         textArea.setColumns(30);
         textArea.setRows(15);
         textArea.setEditable(false);
@@ -80,8 +74,8 @@ public class Display extends JFrame {
         JFrame insertData = new JFrame("添加联系人");
 
         // set bounds
-        insertData.setBounds(150, 150, 300, 220);
-        this.setResizable(false);
+        insertData.setBounds(150, 150, 300, 200);
+        insertData.setResizable(false);
 
         // set layout
         insertData.setLayout(new FlowLayout());
@@ -104,6 +98,13 @@ public class Display extends JFrame {
 
         insertData.add(okBtn);
         insertData.add(cancelBtn);
+
+        okBtn.addActionListener(e -> {
+            // insert data to database
+            insertData.dispose();
+        });
+
+        cancelBtn.addActionListener(e -> insertData.dispose());
 
         insertData.setVisible(true);
     }
