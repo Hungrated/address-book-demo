@@ -6,18 +6,37 @@ public class Database {
 
     //声明Connection对象
     private static Connection con;
+    //驱动程序名
+    private static String driver = "com.mysql.jdbc.Driver";
+    //URL指向要访问的数据库名
+    private static String url = "jdbc:mysql://localhost:3306/address_book_demo?&useUnicode=true&characterEncoding=utf-8";
+    //MySQL配置时的用户名
+    private static String user = "root";
+    //MySQL配置时的密码
+    private static String password = "z295415658";
+    //遍历查询结果集
 
 
-    public static void insert(String name, String phone) throws SQLException {
+    public static void insert(String name, String phone) throws SQLException, ClassNotFoundException {
+        Class.forName(driver);
+        con = DriverManager.getConnection(url, user, password);
+        if (!con.isClosed())
+            System.out.println("Succeeded connecting to the Database!");
+
         PreparedStatement psql;
 
         psql = con.prepareStatement("INSERT INTO `phone_info` (name, phone) " +
-                "VALUES (" + name + ", " + phone + ")");
+                "VALUES ('" + name + "', '" + phone + "')");
 
         psql.executeUpdate();
+        con.close();
     }
 
-    public static void update(String name, String phone) throws SQLException {
+    public static void update(String name, String phone) throws SQLException, ClassNotFoundException {
+        Class.forName(driver);
+        con = DriverManager.getConnection(url, user, password);
+        if (!con.isClosed())
+            System.out.println("Succeeded connecting to the Database!");
 
         PreparedStatement psql;
 
@@ -25,19 +44,11 @@ public class Database {
                 "WHERE name = '" + name + "'");
 
         psql.executeUpdate();
+
+        con.close();
     }
 
     public static String query(String name) {
-
-        //驱动程序名
-        String driver = "com.mysql.jdbc.Driver";
-        //URL指向要访问的数据库名
-        String url = "jdbc:mysql://localhost:3306/address_book_demo";
-        //MySQL配置时的用户名
-        String user = "root";
-        //MySQL配置时的密码
-        String password = "z295415658";
-        //遍历查询结果集
 
         StringBuilder queryString = new StringBuilder();
 

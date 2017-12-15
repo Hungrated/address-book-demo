@@ -82,7 +82,8 @@ public class Display extends JFrame {
             String name = this.name.getText();
             String result = database.Database.query(name.equals("") ? null : name);
             this.name.setText("");
-            this.textArea.setText(result);
+            this.phone.setText("");
+            this.textArea.setText(result.equals("") ? "没有数据" : result);
         });
 
         modify.addActionListener(e -> {
@@ -91,13 +92,15 @@ public class Display extends JFrame {
             if (!name.equals("") && !phone.equals("")) {
                 try {
                     Database.update(name, phone);
-                } catch (SQLException e1) {
+                } catch (SQLException | ClassNotFoundException e1) {
                     e1.printStackTrace();
                 } finally {
                     this.name.setText("");
                     this.phone.setText("");
                     this.textArea.setText("修改数据成功： " + database.Database.query(name));
                 }
+            } else {
+                this.textArea.setText("请将数据补充完整");
             }
 
         });
@@ -108,13 +111,15 @@ public class Display extends JFrame {
             if (!name.equals("") && !phone.equals("")) {
                 try {
                     Database.insert(name, phone);
-                } catch (SQLException e1) {
+                } catch (SQLException | ClassNotFoundException e1) {
                     e1.printStackTrace();
                 } finally {
                     this.name.setText("");
                     this.phone.setText("");
                     this.textArea.setText("新增数据成功： " + database.Database.query(name));
                 }
+            } else {
+                this.textArea.setText("请将数据补充完整");
             }
         });
 
