@@ -1,10 +1,15 @@
 import database.*;
 
 import java.awt.*;
+import java.sql.SQLException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 public class Display extends JFrame {
+
+    private JTextField name = new JTextField(12);
+    private JTextField phone = new JTextField(12);
+    private JTextArea textArea = new JTextArea();
 
     private Display() {
 
@@ -47,8 +52,6 @@ public class Display extends JFrame {
         insertData.setLayout(new GridLayout(3, 1));
         JLabel title = new JLabel("                   简易通讯录");
         insertData.add(title);
-        JTextField name = new JTextField(12);
-        JTextField phone = new JTextField(12);
 
         JPanel namePanel = new JPanel();
         JPanel phonePanel = new JPanel();
@@ -75,6 +78,45 @@ public class Display extends JFrame {
 
         // event listeners
 
+        query.addActionListener(e -> {
+            String name = this.name.getText();
+            String result = database.Database.query(name.equals("") ? null : name);
+            this.name.setText("");
+            this.textArea.setText(result);
+        });
+
+        modify.addActionListener(e -> {
+            String name = this.name.getText();
+            String phone = this.phone.getText();
+            if (!name.equals("") && !phone.equals("")) {
+                try {
+                    Database.update(name, phone);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                } finally {
+                    this.name.setText("");
+                    this.phone.setText("");
+                    this.textArea.setText("修改数据成功： " + database.Database.query(name));
+                }
+            }
+
+        });
+
+        insert.addActionListener(e -> {
+            String name = this.name.getText();
+            String phone = this.phone.getText();
+            if (!name.equals("") && !phone.equals("")) {
+                try {
+                    Database.insert(name, phone);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                } finally {
+                    this.name.setText("");
+                    this.phone.setText("");
+                    this.textArea.setText("新增数据成功： " + database.Database.query(name));
+                }
+            }
+        });
 
     }
 
@@ -84,7 +126,6 @@ public class Display extends JFrame {
         queryDisplay.setLayout(new FlowLayout(FlowLayout.CENTER));
         this.add(queryDisplay);
 
-        JTextArea textArea = new JTextArea();
         textArea.setColumns(30);
         textArea.setRows(15);
         textArea.setEditable(false);

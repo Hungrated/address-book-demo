@@ -8,18 +8,23 @@ public class Database {
     private static Connection con;
 
 
-    public static void insert(String name, String phone) throws SQLException{
+    public static void insert(String name, String phone) throws SQLException {
+        PreparedStatement psql;
 
+        psql = con.prepareStatement("INSERT INTO `phone_info` (name, phone) " +
+                "VALUES (" + name + ", " + phone + ")");
+
+        psql.executeUpdate();
     }
 
     public static void update(String name, String phone) throws SQLException {
 
         PreparedStatement psql;
 
-        psql = con.prepareStatement("INSERT INTO `phone_info` (name, phone) " +
-                "VALUES (" + name + ", " + phone + ")");
+        psql = con.prepareStatement("UPDATE `phone_info` SET phone = '" + phone + "' " +
+                "WHERE name = '" + name + "'");
 
-        psql.executeUpdate();           //执行更新
+        psql.executeUpdate();
     }
 
     public static String query(String name) {
@@ -34,7 +39,7 @@ public class Database {
         String password = "z295415658";
         //遍历查询结果集
 
-        String queryString = "";
+        StringBuilder queryString = new StringBuilder();
 
         try {
             //加载驱动程序
@@ -50,12 +55,11 @@ public class Database {
             //要执行的SQL语句
             String sql = "SELECT * FROM `phone_info`";
             if (name != null) {
-                sql = "SELECT * FROM  `phone_info` WHERE name = " + name;
+                sql = "SELECT * FROM  `phone_info` WHERE name = " + "'" + name + "'";
             }
 
             //3.ResultSet类，用来存放获取的结果集！！
             ResultSet rs = statement.executeQuery(sql);
-            System.out.println("姓 名" + ", " + "电 话");
 
             String queryName, queryPhone;
             while (rs.next()) {
@@ -65,7 +69,7 @@ public class Database {
                 queryPhone = rs.getString("phone");
 
                 //输出结果
-                queryString = queryString.concat(queryName + ", " + queryPhone + "\n");
+                queryString.append(queryName).append(", ").append(queryPhone).append("\n");
 //                System.out.println(queryName + ", " + queryPhone);
             }
             rs.close();
@@ -75,12 +79,9 @@ public class Database {
             System.out.println("Sorry,can`t find the Driver!");
             e.printStackTrace();
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
-        } finally {
-            System.out.println("fetch data successful");
         }
-        return queryString;
+        return queryString.toString();
     }
 
 }
