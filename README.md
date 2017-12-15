@@ -1,5 +1,5 @@
 # address-book-demo
-A simple address book
+A simple address book, based on JFrame.
 
 ## Usage
 
