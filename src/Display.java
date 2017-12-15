@@ -1,17 +1,10 @@
+import database.*;
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Connection;
-import java.sql.Statement;
-
 public class Display extends JFrame {
-
-    //    private Statement stmt;
-//    private Connection conn;
-//    private ResultSet resultSet;
 
     private Display() {
 
@@ -81,8 +74,6 @@ public class Display extends JFrame {
         options.add(buttons);
 
         // event listeners
-
-
 
 
     }
