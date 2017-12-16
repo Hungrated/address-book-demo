@@ -11,9 +11,9 @@ public class Database {
     //URL指向要访问的数据库名
     private static String url = "jdbc:mysql://localhost:3306/address_book_demo?&useUnicode=true&characterEncoding=utf-8";
     //MySQL配置时的用户名
-    private static String user = "root";
+    private static String user = "......";
     //MySQL配置时的密码
-    private static String password = "z295415658";
+    private static String password = "......";
     //遍历查询结果集
 
 
